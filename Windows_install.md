@@ -95,29 +95,21 @@ The configuration file uses the JSON format. Copy the following content into the
     "log_result_events": "true",
     "schedule_splay_percent": "10",
     "events_expiry": "3600",
+    "events_max": "2000",
     "verbose": "false",
     "worker_threads": "2",
+    "logger_mode": "420",
     "enable_monitor": "true",
     "disable_events": "false",
-    "disable_audit": "false",
-    "audit_allow_config": "true",
+    "events_optimize": "true",
     "host_identifier": "hostname",
-    "enable_syslog": "false",
-    "audit_allow_sockets": "true",
-    "schedule_default_interval": "3600"
+    "schedule_default_interval": "3600",
+    "disable_distributed": "true"
   },
-  "OSVer": {
-    "crontab": {
-      "query": "SELECT * FROM os_version;",
-      "interval": 3600
-    },
-    "OSQSysProfile": {
-      "query": "SELECT * FROM osquery_schedule;",
-      "interval": 3600
-    },
-    "SysInfo": {
-      "query": "SELECT * FROM system_info;",
-      "interval": 3600
+  "schedule": {
+    "winevnt": {
+      "query": "select * from windows_events;",
+      "interval": 10
     }
   },
   "decorators": {
