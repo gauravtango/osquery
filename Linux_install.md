@@ -124,28 +124,29 @@ The configuration file uses the JSON format. Copy the following content into the
     "audit_allow_sockets": "true",
     "schedule_default_interval": "3600"
   },
-  "OSVer": {
-    "crontab": {
-      "query": "SELECT * FROM os_version;",
-      "interval": 3600
+  "schedule": {
+    "usb_ports": {
+      "query": "select *,'Removable USB device detected.' as msg from usb_devices where removable=1 ;",
+      "platform": "linux",
+      "interval": 10
     },
-    "OSQSysProfile": {
-      "query": "SELECT * FROM osquery_schedule;",
-      "interval": 3600
+    "local_listning_ports": {
+      "query": "select *, 'Change in local listning port detected' as msg from listening_ports inner join processes on  listening_ports.pid = processes.pid where address='0.0.0.0' ;",
+      "platform": "linux",
+      "interval": 60
     },
-    "SysInfo": {
-      "query": "SELECT * FROM system_info;",
-      "interval": 3600
+    "local_processes": {
+      "query": "select *, 'Local process start-stop detected' as msg from processes where on_disk=1;",
+      "platform": "linux",
+      "interval": 60
     }
   },
   "decorators": {
     "load": [
-      "SELECT uuid AS host_uuid FROM system_info;",
+      "SELECT 'dnif_osquery' as log_type;",
+      "SELECT uuid AS host_uuid, hardware_model FROM system_info;",
       "SELECT user AS username FROM logged_in_users ORDER BY time DESC LIMIT 1;"
     ]
-  },
-  "packs": {
-     "osquery-monitoring": "/usr/share/osquery/packs/osquery-dnif-linux.conf"
   }
 }
 ```
